@@ -48,11 +48,8 @@ class File:  # File class that manages file creation, reading, & writing
         self.clearance_level = 0
         self.content = ""
 
-    def __str__(self):
-        return f"{self.file_name}({self.clearance})\n {self.content}"
-
     def read(self):
-        return self.content
+        return f"{self.file_name}({self.clearance})\n {self.content}"
 
     def write(self, new_content):
         self.content = self.content + "\n" + new_content
@@ -82,23 +79,23 @@ def main():
     file1 = File("created_by_shemp.txt", user1.get_clearance_name())
     user1.attempt_write(file1, "Hi, this is Shemp. I can write this because this file is public, and I have public "
                                "clearance.")
-    print(file1)
+    print(user1.attempt_read(file1))
 
     print("\n")
 
     user2 = User("Curly", "secret")
     print(user2)
     user2.attempt_write(file1, "Hi, this is Curly. I can also write this file because I have secret clearance.")
-    print(file1)
+    print(user2.attempt_read(file1))
 
     print("\n")
 
     user3 = User("Larry", "top secret")
     print(user3)
-    file2 = File("created_by_Larry", user3.get_clearance_name())
+    file2 = File("created_by_Larry.txt", user3.get_clearance_name())
     user3.attempt_write(file2, "Hi, this is Larry. Curly should not be able to read or access this top-secret file.")
-    print(file2)
-    user2.attempt_read(file2)
+    print(user3.attempt_read(file2))
+    print(user2.attempt_read(file2))
 
     print("\n")
 
@@ -106,7 +103,13 @@ def main():
     print(user4)
     user4.attempt_write(file2, "Hi, this is Moe. I can write on Larry's file because I have 'Her majesty's eyes only"
                                " clearance'.")
-    print(file2)
+    print(user4.attempt_read(file2))
+
+    print("\n")
+
+    print("When Shemp tries to write on Larry's file:")
+    print("\n")
+    print(user1.attempt_write(file2, "can I do this?"))
 
 
 main()
